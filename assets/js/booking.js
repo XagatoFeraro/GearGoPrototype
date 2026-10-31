@@ -46,6 +46,15 @@ function bookingStepFromRoute() {
   return clamp(step, 1, 5);
 }
 
+function bookingNextStep(draft) {
+  if (!draft.services || !draft.services.length) return 1;
+  const hasVehicle = !!(draft.existingVehicleId || (draft.vehicle && (draft.vehicle.reg || draft.vehicle.make || draft.vehicle.model)));
+  if (!hasVehicle) return 2;
+  if (!draft.customerId) return 3;
+  if (!draft.date || !draft.slot) return 4;
+  return 5;
+}
+
 function bookingDraftTotals(draft) {
   let serviceTotal = 0;
   draft.services.forEach(id => { const s = serviceById(db, id); if (s?.price) serviceTotal += s.price; });
@@ -153,7 +162,7 @@ function bookingStepService(draft) {
         </label>`).join('')}
       </div>
       <div class="inline-note mt-4">${icon('info')}<div>If you are unsure, choose “I’m not sure what my car needs”. The garage will start with an inspection and explain findings before recommending paid work.</div></div>
-      <div class="booking-nav"><a class="btn btn-ghost btn-sm" href="#/site">Cancel</a><button class="btn btn-dark" type="submit">Continue to vehicle ${icon('arrow','icon-sm')}</button></div>
+      <div class="booking-nav"><a class="btn btn-ghost btn-sm" href="#/site">Cancel</a><button class="btn btn-dark" type="submit">Continue to vehicle ${icon('arrow','icon-sm')}</button><button class="btn btn-lime" type="button" data-action="booking.bookNow">Book now ${icon('arrow','icon-sm')}</button></div>
     </form>
   </section>`;
 }

@@ -107,6 +107,21 @@ Object.assign(actions, {
     }
     actions['sidebar.close']();
   },
+  'booking.bookNow': () => {
+    const draft = ensureBookingDraft();
+    if (!draft.services || !draft.services.length) { toast('Add a service first', 'Select the package(s) your car needs before booking.', 'info'); return; }
+    openModal({
+      title: 'Book your service',
+      size: 'sm',
+      body: `<p class="small muted mb-3">Demo booking sign-in. No real SMS or OTP is sent.</p>
+        <form data-form="booking.otp">
+          <div class="field"><label for="bk-otp-phone">Mobile number *</label><input class="input" id="bk-otp-phone" name="phone" inputmode="tel" value="${esc(draft.customer?.mobile || '')}" maxlength="15" required></div>
+          <div class="field mt-3"><label for="bk-otp-code">OTP *</label><input class="input" id="bk-otp-code" name="otp" inputmode="numeric" maxlength="4" value="0000" required></div>
+          <p class="tiny muted mt-3">Demo only — enter <strong>0000</strong> to authenticate this demo identity.</p>
+          <div class="form-actions mt-4"><button class="btn btn-dark" type="submit">Verify & continue ${icon('arrow','icon-sm')}</button></div>
+        </form>`
+    });
+  },
   'booking.service.toggle': (el) => {
     const d = ensureBookingDraft();
     const id = el.dataset.service;

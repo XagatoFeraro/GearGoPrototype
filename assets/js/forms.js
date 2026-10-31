@@ -96,6 +96,30 @@ Object.assign(formHandlers, {
     saveDB({silent:true});
     go('/book?step=5');
   },
+  'booking.otp': (form) => {
+    const v = formValues(form);
+    const phone = String(v.phone || '').trim();
+    const otp = String(v.otp || '').trim();
+    const draft = db.ui.bookingDraft;
+    if (otp !== '0000') { toast('Invalid demo OTP', 'Enter 0000 to authenticate this demo booking.', 'error'); return; }
+    const digits = String(phone || '').replace(/\D/g, '');
+    let customer = db.customers.find(c => String(c.mobile || '').replace(/\D/g, '') === digits);
+    if (!customer && draft.customerId) customer = db.customers.find(c => c.id === draft.customerId);
+    if (!customer) { const fallback = db.customers.find(c => !c.guest) || db.customers[0]; if (fallback) customer = fallback; }
+    if (!customer) { formFail(form, ['No demo customer is available for this booking. Sign in at /login to continue.']); return; }
+    const carried = {services: (draft.services || []).slice(), concerns: (draft.concerns || []).slice(), addons: (draft.addons || []).slice()};
+    db.session = {kind:'customer', customerId:customer.id, staffId:null};
+    audit(db, 'auth.login', 'session', customer.id, `Demo booking OTP verified for ${customer.name}`);
+    persist('Demo booking sign-in', 'success', {title:'Demo sign-in'});
+    closeModal();
+    const fresh = ensureBookingDraft();
+    fresh.services = carried.services;
+    fresh.concerns = carried.concerns;
+    fresh.addons = carried.addons;
+    go(`/book?step=${bookingNextStep(fresh)}`);
+    toast('Booking sign-in verified', 'Continue your demo booking request.', 'success');
+    return;
+  },
   'booking.submit': (form) => {
     const draft = ensureBookingDraft();
     const v = formValues(form);
