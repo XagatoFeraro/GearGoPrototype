@@ -378,6 +378,7 @@ function buildSeed() {
       address:'Phase 4, H Block, Aya Nagar, behind Fitness Club Gym, New Delhi, Delhi 110047',
       locality:'Aya Nagar', city:'New Delhi', state:'Delhi', pincode:'110047',
       phone:'+91 90000 00100', whatsapp:'+91 90000 00100', email:'hello@geargo.demo',
+      ownerName:'Hammad Alam', ownerPhone:'+91 95576 08654', ownerWhatsApp:'+91 95576 08654',
       gstin:'DEMO-GSTIN-NOT-VALID',
       hours:{mon:'09:00 – 19:00',tue:'09:00 – 19:00',wed:'09:00 – 19:00',thu:'09:00 – 19:00',fri:'09:00 – 19:00',sat:'09:00 – 17:00',sun:'Closed'},
       weeklyClosed:['Sun'],

@@ -80,6 +80,7 @@
 .search-field .icon{position:absolute;left:11px;top:10px;width:15px;height:15px;color:var(--muted)}
 .select{height:38px;border:1px solid var(--line);border-radius:9px;background:var(--white);padding:0 30px 0 11px;font-size:12.5px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23697066' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 .input,.textarea{width:100%;border:1px solid var(--line);border-radius:9px;background:var(--white);padding:10px 12px;font-size:13.5px;min-height:42px;transition:border-color .2s,box-shadow .2s}
+@media (pointer: coarse){.input,.textarea{font-size:16px}}
 .input:focus,.textarea:focus,.select:focus{border-color:var(--night);outline:none;box-shadow:0 0 0 3px rgba(20,24,19,.08)}
 .input[aria-invalid="true"],.textarea[aria-invalid="true"]{border-color:var(--red);background:var(--red-soft)}
 .textarea{min-height:96px;resize:vertical}

@@ -384,6 +384,7 @@ function siteContact() {
           <div class="contact-method"><span class="icon-box">${icon('phone')}</span><div><strong>Call · demo number</strong><a href="tel:${db.settings.business.phone.replace(/\s/g,'')}">${esc(db.settings.business.phone)}</a><span class="tiny muted" style="display:block">Not a real contact number</span></div></div>
           <div class="contact-method"><span class="icon-box">${icon('whatsapp')}</span><div><strong>WhatsApp · simulated</strong><button class="link" style="border:0;background:none;padding:0" data-action="demo.whatsapp">Preview demo message</button><span class="tiny muted" style="display:block">No real WhatsApp message is sent</span></div></div>
           <div class="contact-method"><span class="icon-box">${icon('mail')}</span><div><strong>Email · demo</strong><span>${esc(db.settings.business.email)}</span></div></div>
+          <div class="contact-method"><span class="icon-box">${icon('user')}</span><div><strong>Garage owner · ${esc(db.settings.business.ownerName)}</strong><a href="tel:${db.settings.business.ownerPhone.replace(/\s/g,'')}">${esc(db.settings.business.ownerPhone)}</a><a href="https://wa.me/${db.settings.business.ownerWhatsApp.replace(/\D/g,'')}" target="_blank" rel="noopener">WhatsApp ${esc(db.settings.business.ownerWhatsApp)}</a><span class="tiny muted" style="display:block">Owner direct contact. Demo details only.</span></div></div>
         </div>
         <div class="hours-grid">
           ${Object.entries(db.settings.business.hours).map(([d, v]) => `<div class="hours-row"><span>${d === 'mon' ? 'Monday' : d === 'tue' ? 'Tuesday' : d === 'wed' ? 'Wednesday' : d === 'thu' ? 'Thursday' : d === 'fri' ? 'Friday' : d === 'sat' ? 'Saturday' : 'Sunday'}</span><strong>${v}</strong></div>`).join('')}
@@ -423,7 +424,7 @@ function siteFaqs() {
     ['Is pickup and drop-off available?','It is represented as a configurable capability and is subject to availability. The prototype does not guarantee pickup, towing or insurance coordination.'],
     ['Can I cancel or reschedule a booking?','Yes, subject to the configured policy. A reschedule request is recorded and staff confirm the new slot. A cancelled booking cannot be converted to a job card.'],
     ['What if the repair takes longer than expected?','The job can be marked delayed with a reason and revised ETA. A customer-visible update can be recorded and a simulated notification previewed.'],
-    ['How can I contact the garage?','Use the demo contact form, demo phone number or demo WhatsApp action. These are simulation controls, not live contact channels.'],
+    ['How can I contact the garage?','Use the demo contact form, call the garage owner, or message on WhatsApp through the demo numbers shown on the contact page. These are simulation controls, not live contact channels.'],
     ['Are the prices final?','No. All prices are illustrative demo values. Final costs must come from an inspection and an approved estimate configured by the real business.'],
     ['Can the garage access my data?','In this prototype, demo staff can access customer records as part of the simulated workflow. Role restrictions are client-side only and are not a production security boundary.']
   ];

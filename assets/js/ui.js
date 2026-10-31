@@ -169,6 +169,7 @@ function siteFooter() {
           <p class="mt-4" style="max-width:320px">${esc(db.settings.business.address)}</p>
           <div class="mt-4"><span class="demo-flag">Demo contact details</span></div>
           <p class="mt-2">${esc(db.settings.business.phone)}<br>${esc(db.settings.business.email)}</p>
+          <p class="mt-2">Garage owner: <strong>${esc(db.settings.business.ownerName)}</strong> · <a href="tel:${db.settings.business.ownerPhone.replace(/\s/g,'')}">${esc(db.settings.business.ownerPhone)}</a> · <a href="https://wa.me/${db.settings.business.ownerWhatsApp.replace(/\D/g,'')}" target="_blank" rel="noopener">WhatsApp</a></p>
         </div>
         <div>
           <h4>Explore</h4>

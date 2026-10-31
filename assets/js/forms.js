@@ -810,6 +810,9 @@ Object.assign(formHandlers, {
     db.settings.business.phone = String(v.phone || '').trim();
     db.settings.business.whatsapp = String(v.phone || db.settings.business.whatsapp).trim();
     db.settings.business.email = String(v.email || '').trim();
+    db.settings.business.ownerName = String(v.ownerName || db.settings.business.ownerName || '').trim();
+    db.settings.business.ownerPhone = String(v.ownerPhone || db.settings.business.ownerPhone || '').trim();
+    db.settings.business.ownerWhatsApp = String(v.ownerWhatsApp || db.settings.business.ownerWhatsApp || '').trim();
     db.settings.business.gstin = String(v.gstin || '').trim();
     db.settings.business.tagline = String(v.tagline || '').trim();
     db.settings.booking.open = v.bookingOpen;
