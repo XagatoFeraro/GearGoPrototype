@@ -87,8 +87,26 @@ Object.assign(actions, {
   'print': () => window.print(),
   'faq.toggle': (el) => { const item = el.closest('.faq-item'); if (item) { item.classList.toggle('open'); el.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false'); } },
   'inspection.toggle': (el) => { const body = document.getElementById(el.dataset.target); if (body) { body.classList.toggle('open'); el.setAttribute('aria-expanded', body.classList.contains('open') ? 'true' : 'false'); } },
-  'mobile.open': () => actions['sidebar.open'](),
-  'mobile.close': () => actions['sidebar.close'](),
+  'mobile.open': () => {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+      menu.classList.add('open');
+      const close = menu.querySelector('[data-action="mobile.close"]');
+      if (close) close.setAttribute('aria-expanded', 'true');
+      return;
+    }
+    actions['sidebar.open']();
+  },
+  'mobile.close': () => {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+      menu.classList.remove('open');
+      const close = menu.querySelector('[data-action="mobile.close"]');
+      if (close) close.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    actions['sidebar.close']();
+  },
   'booking.service.toggle': (el) => {
     const d = ensureBookingDraft();
     const id = el.dataset.service;
