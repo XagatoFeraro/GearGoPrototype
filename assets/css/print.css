@@ -1,0 +1,11 @@
+@media print{
+  body{background:#fff}
+  .sidebar,.topbar,.site-header,.site-footer,.experience-switcher,.toast-root,.no-print,.prototype-banner,.skip-link{display:none!important}
+  .app-shell{display:block}
+  .page{padding:0;max-width:none}
+  .print-only{display:block}
+  .invoice-paper{border:0;padding:0;max-width:none}
+  .main-shell{display:block}
+  a[href]::after{content:none!important}
+  .card{box-shadow:none;break-inside:avoid}
+}

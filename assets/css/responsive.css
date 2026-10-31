@@ -1,0 +1,129 @@
+@media(max-width:1120px){
+  .site-nav{display:none}
+  .mobile-toggle{display:flex}
+  .site-header .inner{gap:16px}
+}
+
+@media(max-width:1100px){
+  .hero-inner{grid-template-columns:1fr;gap:30px;padding-top:130px}
+  .hero-art{max-width:560px;min-height:380px;margin:0 auto;width:100%}
+  .service-grid,.card-grid{grid-template-columns:repeat(2,1fr)}
+  .process-grid{grid-template-columns:repeat(2,1fr)}
+  .home-split{grid-template-columns:1fr;gap:40px}
+  .footer-grid{grid-template-columns:1.4fr .8fr .8fr}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-main,.grid-main-wide{grid-template-columns:1fr}
+  .booking-grid{grid-template-columns:1fr}
+  .booking-summary{position:static;order:-1}
+  .demo-shortcuts{grid-template-columns:repeat(2,1fr)}
+  .service-detail-grid{grid-template-columns:1fr}
+  .service-aside{position:static}
+  .contact-grid{grid-template-columns:1fr}
+  .persona-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:900px){
+  .site-nav{display:none}
+  .mobile-toggle{display:flex}
+  .header-actions .btn-outline,.header-actions .switch-experience{display:none}
+  .site-header .inner{padding:12px 18px}
+  .section{padding:70px 20px}
+  .section.compact{padding:50px 20px}
+  .hero{min-height:auto}
+  .hero-inner{padding:120px 20px 70px}
+  .hero h1{font-size:clamp(42px,10vw,64px)}
+  .hero-meta{gap:16px}
+  .live-card{width:260px;right:0;bottom:-10px;padding:13px}
+  .hero-note{left:0;top:20px}
+  .quote-band .inner{grid-template-columns:1fr}
+  .quote-band{padding:50px 20px}
+  .trust-grid{grid-template-columns:1fr}
+  .app-shell{grid-template-columns:1fr}
+  .app-shell>.main-shell{grid-column:1}
+  .app-shell>.sidebar{grid-column:1}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:260px;transform:translateX(-100%);transition:transform .3s var(--ease);z-index:120;height:100vh}
+  .sidebar.open{transform:none;box-shadow:30px 0 80px rgba(0,0,0,.35)}
+  .side-scrim{position:fixed;inset:0;z-index:110;background:rgba(0,0,0,.4);display:none}
+  .side-scrim.open{display:block}
+  .menu-btn{display:grid}
+  .page{padding:20px 16px 50px}
+  .topbar{padding:0 14px;height:58px}
+  .topbar-search{display:none}
+  .page-title{font-size:25px}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+  .booking-shell{padding:90px 14px 50px}
+  .option-grid,.option-grid.concern-grid{grid-template-columns:1fr}
+  .slot-grid{grid-template-columns:repeat(3,1fr)}
+  .approval-actions{grid-template-columns:1fr}
+  .invoice-parties{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .quick-grid{grid-template-columns:repeat(3,1fr)}
+  .calendar-strip{grid-template-columns:repeat(4,1fr)}
+  .page-hero{padding:120px 20px 50px}
+  .content-page{padding:50px 20px 80px}
+}
+
+@media(max-width:640px){
+  .service-grid,.card-grid,.grid-2,.grid-3,.grid-4,.card-grid.two-up{grid-template-columns:1fr}
+  .detail-list.three-up{grid-template-columns:1fr 1fr}
+  .process-grid{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:1fr 1fr;gap:8px}
+  .stat-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .stat{padding:13px;min-height:94px}
+  .stat .value{font-size:23px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:26px}
+  .footer-bottom{flex-direction:column}
+  .experience-grid{grid-template-columns:1fr}
+  .persona-grid{grid-template-columns:1fr}
+  .demo-shortcuts{grid-template-columns:1fr 1fr}
+  .hero-actions .btn{flex:1}
+  .hero-meta .item{min-width:calc(50% - 16px)}
+  .live-card{display:none}
+  .hero-art{min-height:280px}
+  .related-services{grid-template-columns:1fr}
+  .trust-strip .inner{gap:12px;justify-content:flex-start}
+  .section-title{font-size:31px}
+  .booking-title{font-size:29px}
+  .booking-panel{padding:18px}
+  .slot-grid{grid-template-columns:repeat(2,1fr)}
+  .calendar-strip{grid-template-columns:repeat(4,1fr)}
+  .topbar-actions .demo-pill{display:none}
+  .tabs{gap:0}
+  .tab{padding:9px 10px;font-size:11.5px}
+  .form-grid{gap:10px}
+  .page-title{font-size:23px}
+  .card{padding:16px}
+  .modal-backdrop{padding:10px;align-items:flex-end}
+  .modal{max-height:92vh;border-radius:16px}
+  .modal-body{padding:16px}
+  .invoice-paper{padding:18px}
+  .invoice-totals{width:100%}
+  .portal-hero{padding:20px}
+  .action-card .icon-big{display:none}
+  .step span{display:none}
+  .step{min-width:auto;flex:none}
+  .step-line{min-width:10px}
+  .quick-grid{grid-template-columns:repeat(2,1fr)}
+  .chart-wrap{overflow-x:auto}
+  .chart-wrap svg{min-width:480px}
+}
+
+@media(max-width:420px){
+  .site-header .inner{padding:10px 14px;gap:10px}
+  .header-actions{gap:6px}
+  .header-actions .btn-lime{padding:9px 12px;font-size:12.5px}
+  .header-actions .btn-lime .icon{display:none}
+  .mobile-toggle{width:38px;height:38px}
+  .booking-step{flex:1 1 52px;min-width:0;font-size:9px}
+  .booking-step span{overflow-wrap:anywhere}
+  .brand{font-size:18px;gap:8px}
+  .brand-mark{width:30px;height:30px;border-radius:9px}
+  .brand small{font-size:8px;letter-spacing:.12em}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .reveal,.stagger>*{opacity:1!important;transform:none!important}
+}
