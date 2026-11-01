@@ -4,10 +4,26 @@
    ========================================================================== */
 'use strict';
 
+const SERVICE_IMAGES = {
+  svc_periodic: 'https://hoora.in/wp-content/themes/hoora/assets/images/heading-new.png',
+  svc_mechanical: 'https://hoora.in/wp-content/themes/hoora/assets/images/booking-hoora.png',
+  svc_brakes: 'https://hoora.in/wp-content/themes/hoora/assets/images/bike-car.webp',
+  svc_diagnostics: 'https://hoora.in/wp-content/themes/hoora/assets/images/bike-car.webp',
+  svc_electrical: 'https://hoora.in/wp-content/themes/hoora/assets/images/new-update-banner.png',
+  svc_ac: 'https://hoora.in/wp-content/themes/hoora/assets/images/wash-care1.png',
+  svc_battery: 'https://hoora.in/wp-content/themes/hoora/assets/images/insurance-hoora1.png',
+  svc_accident: 'https://hoora.in/wp-content/themes/hoora/assets/images/CONNECT-QR.png',
+  svc_dent: 'https://hoora.in/wp-content/themes/hoora/assets/images/new-update-banner1.png',
+  svc_wash: 'https://hoora.in/wp-content/themes/hoora/assets/images/Vacuum Clean.jpeg',
+  svc_interior: 'https://hoora.in/wp-content/themes/hoora/assets/images/Interior Clean.jpeg',
+  svc_detailing: 'https://hoora.in/wp-content/themes/hoora/assets/images/Tyre Gleam Polish.jpeg'
+};
+
 function siteHome() {
   const featured = db.settings.services.slice(0, 6);
   const servicesHtml = featured.map((s, i) => `<a class="service-card reveal" href="#/site/services/${s.id}">
     <span class="num">0${i + 1}</span>
+    ${SERVICE_IMAGES[s.id] ? `<img class="service-card-img" src="${esc(SERVICE_IMAGES[s.id])}" alt="${esc(s.name)}" loading="lazy">` : ''}
     <span class="service-icon">${icon(s.icon)}</span>
     <h3>${esc(s.name)}</h3>
     <p>${esc(s.short)}</p>
@@ -33,7 +49,7 @@ function siteHome() {
       </div>
       <div class="hero-art">
         <div class="hero-glow"></div>
-        <div class="hero-car">${carArt()}</div>
+        <div class="hero-car"><img src="https://hoora.in/wp-content/themes/hoora/assets/images/booking-hoora.png" alt="Premium car being serviced at the garage"></div>
         <div class="hero-note">${icon('shield')}<span><strong>Estimate-first workshop</strong><span>No surprise additions</span></span></div>
         <div class="live-card">
           <div class="head">
@@ -210,6 +226,7 @@ function siteServices() {
       <div class="service-grid">
         ${services.map((s, i) => `<a class="service-card reveal" href="#/site/services/${s.id}">
           <span class="num">${pad2(i + 1)}</span>
+          ${SERVICE_IMAGES[s.id] ? `<img class="service-card-img" src="${esc(SERVICE_IMAGES[s.id])}" alt="${esc(s.name)}" loading="lazy">` : ''}
           <span class="service-icon">${icon(s.icon)}</span>
           <div class="flex gap-2 wrap" style="margin-bottom:8px">${badge(s.category,'grey',false)}${s.specialist ? badge('Specialist · subject to availability','amber',false) : ''}${!s.enabled ? badge('Currently unavailable','red',false) : ''}</div>
           <h3>${esc(s.name)}</h3>
