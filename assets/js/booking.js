@@ -62,9 +62,24 @@ function bookingServicePrice(service, draft) {
   }
   return service?.price || 0;
 }
+function bookingVehicle(draft) {
+  return draft.vehicleMode === 'existing' ? getVehicle(db, draft.existingVehicleId) : (draft.vehicle || null);
+}
+function bookingServiceVehiclePrice(service, vehicle, draft) {
+  const base = bookingServicePrice(service, draft);
+  if (!base) return null;
+  let price = base;
+  const fuel = String((vehicle && vehicle.fuel) || (draft && draft.vehicle && draft.vehicle.fuel) || '').toLowerCase();
+  const fuelAdj = {petrol:1, diesel:1.12, cng:1.05, electric:0.92, hybrid:0.98}[fuel] || 1;
+  price = Math.round(price * fuelAdj);
+  const year = Number((vehicle && vehicle.year) || (draft && draft.vehicle && draft.vehicle.year) || 0);
+  if (year && year < 2015) price = Math.round(price * 1.15);
+  return price;
+}
 function bookingDraftTotals(draft) {
+  const vehicle = bookingVehicle(draft);
   let serviceTotal = 0;
-  (draft.services || []).forEach(id => { const s = serviceById(db, id); if (s?.price) serviceTotal += bookingServicePrice(s, draft); });
+  (draft.services || []).forEach(id => { const s = serviceById(db, id); const price = s ? bookingServiceVehiclePrice(s, vehicle, draft) : null; if (price) serviceTotal += price; });
   (draft.addons || []).forEach(id => { const a = ADDONS.find(x => x.id === id); if (a) serviceTotal += a.price; });
   return serviceTotal;
 }
@@ -145,6 +160,7 @@ function brandMarkOnly() {
 
 function bookingStepService(draft) {
   const selected = new Set(draft.services);
+  const vehicle = draft.vehicleMode === 'existing' ? getVehicle(db, draft.existingVehicleId) : (draft.vehicle || null);
   return `<section class="booking-panel">
     <h2>What does your car need?</h2>
     <p class="sub">Start with a concern if you are not sure. This helps the garage prepare the right inspection — it does not diagnose the vehicle automatically.</p>
@@ -159,10 +175,13 @@ function bookingStepService(draft) {
       <div class="section-divider"></div>
       <div class="flex between wrap mb-2"><div class="label-text">Requested services *</div><span class="tiny muted">Choose one or more</span></div>
       <div class="option-grid">
-        ${db.settings.services.filter(s => s.enabled).map(s => `<button type="button" class="option-card ${selected.has(s.id) ? 'selected' : ''}" data-action="booking.service.toggle" data-service="${s.id}">
-          <span class="opt-icon">${icon(s.icon)}</span><span><strong>${esc(s.name)}</strong><span>${s.price ? 'From '+fmtINR(s.price) : 'Inspection required'} · ${esc(s.duration)}</span></span>
+        ${db.settings.services.filter(s => s.enabled).map(s => {
+          const price = bookingServiceVehiclePrice(s, vehicle, draft);
+          return `<button type="button" class="option-card ${selected.has(s.id) ? 'selected' : ''}" data-action="booking.service.toggle" data-service="${s.id}">
+          <span class="opt-icon">${icon(s.icon)}</span><span><strong>${esc(s.name)}</strong><span>${s.price ? `From ${fmtINR(price ?? s.price)}` : 'Inspection required'} · ${esc(s.duration)}</span></span>
           <span class="opt-check">${icon('check')}</span>
-        </button>`).join('')}
+        </button>`;
+        }).join('')}
       </div>
       ${selectedTieredServices(draft).length ? `<div class="section-divider"></div>
       <div class="flex between wrap mb-2"><div class="label-text">Service tier</div><span class="tiny muted">Package options for the selected service</span></div>
