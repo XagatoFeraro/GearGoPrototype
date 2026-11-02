@@ -50,7 +50,7 @@ function siteHome() {
       </div>
       <div class="hero-art">
         <div class="hero-glow"></div>
-        <div class="hero-car"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1400&q=70" alt="Premium car being serviced at the garage"></div>
+        <div class="hero-car"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/HYUNDAI_CRETA_%2C_iX25_%28GS%2CGC%29_China_%2811%29.jpg/1920px-HYUNDAI_CRETA_%2C_iX25_%28GS%2CGC%29_China_%2811%29.jpg" alt="Hyundai Creta"></div>
         <div class="hero-note">${icon('shield')}<span><strong>Estimate-first workshop</strong><span>No surprise additions</span></span></div>
         <div class="live-card">
           <div class="head">
