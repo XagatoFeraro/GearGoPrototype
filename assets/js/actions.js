@@ -128,6 +128,21 @@ Object.assign(actions, {
     d.services = d.services.includes(id) ? d.services.filter(x => x !== id) : [...d.services, id];
     render();
   },
+  'booking.tier': (el) => {
+    const d = ensureBookingDraft();
+    const svc = serviceById(db, el.dataset.service);
+    const tier = (svc?.tiers || []).find(t => t.id === el.dataset.tier);
+    if (tier) d.tier = tier.id;
+    render();
+  },
+  'booking.compare': () => {
+    const draft = ensureBookingDraft();
+    const list = (draft.services || []).map(id => serviceById(db, id)).filter(Boolean);
+    const services = list.length ? list : (db.settings.services || []).filter(s => s.enabled);
+    const rows = services.map(s => ({s, tier: (s.tiers || []).find(t => t.id === (draft.tier || '')) || null}));
+    const body = `<div class="card pad-0" style="padding:6px;overflow-x:auto"><table class="table"><thead><tr><th>Service</th><th>Price</th><th>Duration</th><th>Category</th><th>Specialist</th></tr></thead><tbody>${rows.map(({s, tier}) => `<tr><td>${esc(s.name)}${tier ? `<div class="tiny muted" style="margin-top:3px">Tier · ${esc(tier.name)} — ${esc(tier.desc)}</div>` : ''}</td><td class="mono">${s.price ? fmtINR(tier?.price ?? s.price) : 'Inspection required'}</td><td>${esc(s.duration)}</td><td>${esc(s.category)}</td><td>${s.specialist ? 'Specialist · subject to availability' : 'In-house'}</td></tr>`).join('')}</tbody></table></div>`;
+    openModal({title:'Compare services', size:'wide', body});
+  },
   'booking.concern': (el) => {
     const d = ensureBookingDraft();
     const label = el.dataset.concern;

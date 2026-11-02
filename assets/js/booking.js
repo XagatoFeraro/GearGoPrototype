@@ -19,7 +19,7 @@ function freshBookingDraft() {
   return {
     step:1,
     identity:customer?.id || 'guest',
-    services:[], concerns:[], addons:[],
+    services:[], concerns:[], addons:[], tier:'',
     unsure:false,
     vehicleMode:vehicles.length ? 'existing' : 'new',
     existingVehicleId:vehicles[0]?.id || '',
@@ -55,15 +55,26 @@ function bookingNextStep(draft) {
   return 5;
 }
 
+function bookingServicePrice(service, draft) {
+  if (service?.tiers && service.tiers.length) {
+    const tier = service.tiers.find(t => t.id === (draft && draft.tier));
+    if (tier) return tier.price;
+  }
+  return service?.price || 0;
+}
 function bookingDraftTotals(draft) {
   let serviceTotal = 0;
-  draft.services.forEach(id => { const s = serviceById(db, id); if (s?.price) serviceTotal += s.price; });
-  draft.addons.forEach(id => { const a = ADDONS.find(x => x.id === id); if (a) serviceTotal += a.price; });
+  (draft.services || []).forEach(id => { const s = serviceById(db, id); if (s?.price) serviceTotal += bookingServicePrice(s, draft); });
+  (draft.addons || []).forEach(id => { const a = ADDONS.find(x => x.id === id); if (a) serviceTotal += a.price; });
   return serviceTotal;
 }
 
 function draftHasInspectionRequired(draft) {
-  return draft.services.some(id => !serviceById(db, id)?.price);
+  return (draft.services || []).some(id => !serviceById(db, id)?.price);
+}
+function selectedTieredServices(draft) {
+  const selected = new Set(draft.services || []);
+  return (db.settings.services || []).filter(s => selected.has(s.id) && (s.tiers || []).length > 0);
 }
 
 function bookingSummaryPanel(draft, step = 1) {
@@ -153,6 +164,11 @@ function bookingStepService(draft) {
           <span class="opt-check">${icon('check')}</span>
         </button>`).join('')}
       </div>
+      ${selectedTieredServices(draft).length ? `<div class="section-divider"></div>
+      <div class="flex between wrap mb-2"><div class="label-text">Service tier</div><span class="tiny muted">Package options for the selected service</span></div>
+      <div class="option-grid">${selectedTieredServices(draft)[0].tiers.map(t => `<button type="button" class="option-card ${draft.tier === t.id ? 'selected' : ''}" data-action="booking.tier" data-service="${selectedTieredServices(draft)[0].id}" data-tier="${t.id}">
+        <span class="opt-icon">${icon(t.icon)}</span><span><strong>${esc(t.name)}</strong><span>${fmtINR(t.price)} · ${esc(t.desc)}</span></span><span class="opt-check">${icon('check')}</span>
+      </button>`).join('')}</div>` : ''}
       <div class="section-divider"></div>
       <div class="label-text mb-2">Optional add-ons</div>
       <div class="form-grid">
@@ -162,7 +178,7 @@ function bookingStepService(draft) {
         </label>`).join('')}
       </div>
       <div class="inline-note mt-4">${icon('info')}<div>If you are unsure, choose “I’m not sure what my car needs”. The garage will start with an inspection and explain findings before recommending paid work.</div></div>
-      <div class="booking-nav"><a class="btn btn-ghost btn-sm" href="#/site">Cancel</a><button class="btn btn-dark" type="submit">Continue to vehicle ${icon('arrow','icon-sm')}</button><button class="btn btn-lime" type="button" data-action="booking.bookNow">Book now ${icon('arrow','icon-sm')}</button></div>
+      <div class="booking-nav"><a class="btn btn-ghost btn-sm" href="#/site">Cancel</a><button class="btn btn-ghost btn-sm" type="button" data-action="booking.compare">Compare ${icon('receipt','icon-sm')}</button><button class="btn btn-dark" type="submit">Continue to vehicle ${icon('arrow','icon-sm')}</button><button class="btn btn-lime" type="button" data-action="booking.bookNow">Book now ${icon('arrow','icon-sm')}</button></div>
     </form>
   </section>`;
 }
@@ -265,6 +281,8 @@ function bookingStepReview(draft) {
   const vehicleData = vehicle || draft.vehicle;
   const serviceNames = draft.services.map(id => serviceById(db,id)?.name).filter(Boolean);
   const total = bookingDraftTotals(draft);
+  const tieredService = (db.settings.services || []).find(s => (draft.services || []).includes(s.id) && (s.tiers || []).length);
+  const tier = tieredService?.tiers?.find(t => t.id === (draft.tier || '')) || null;
   let match = null;
   if (draft.customer.mobile) {
     const matches = findCustomerMatches(db, draft.customer.mobile, draft.customer.name, vehicleData.reg);
@@ -276,7 +294,7 @@ function bookingStepReview(draft) {
     <form data-form="booking.submit" novalidate>
       <div class="review-block"><div class="head"><h3>Customer</h3><button type="button" class="link tiny" data-action="booking.edit" data-step="3" style="border:0;background:none;padding:0">Edit</button></div><div class="body"><strong>${esc(draft.customer.name)}</strong><br>${esc(fmtMobile(draft.customer.mobile))}${draft.customer.email ? `<br>${esc(draft.customer.email)}` : ''}<br><span class="muted">Preferred contact: ${esc(CHANNEL_LABELS[draft.customer.channel] || draft.customer.channel)}</span></div></div>
       <div class="review-block"><div class="head"><h3>Vehicle</h3><button type="button" class="link tiny" data-action="booking.edit" data-step="2" style="border:0;background:none;padding:0">Edit</button></div><div class="body"><strong>${esc(vehicleData.make)} ${esc(vehicleData.model)} ${esc(vehicleData.variant || '')}</strong><br><span class="mono">${esc(fmtReg(vehicleData.reg))}</span> · ${esc(vehicleData.year)} · ${esc(vehicleData.fuel)} · ${esc(vehicleData.transmission)}<br><span class="muted">Odometer: ${fmtNum(vehicleData.odometer)} km${vehicleData.nickname ? ` · ${esc(vehicleData.nickname)}` : ''}</span></div></div>
-      <div class="review-block"><div class="head"><h3>Requested services</h3><button type="button" class="link tiny" data-action="booking.edit" data-step="1" style="border:0;background:none;padding:0">Edit</button></div><div class="body">${serviceNames.map(n => `<span class="chip" style="margin:2px 2px 2px 0">${esc(n)}</span>`).join('')}${draft.addons.length ? `<div class="tiny muted mt-2">Add-ons: ${draft.addons.map(id => ADDONS.find(a=>a.id===id)?.name).filter(Boolean).join(', ')}</div>` : ''}${draft.customer.notes ? `<p class="mt-2" style="font-size:12px;color:var(--muted)">“${esc(draft.customer.notes)}”</p>` : ''}</div></div>
+      <div class="review-block"><div class="head"><h3>Requested services</h3><button type="button" class="link tiny" data-action="booking.edit" data-step="1" style="border:0;background:none;padding:0">Edit</button></div><div class="body">${serviceNames.map(n => `<span class="chip" style="margin:2px 2px 2px 0">${esc(n)}</span>`).join('')}${tier ? `<div class="tiny muted mt-2">Tier · ${esc(tier.name)} — ${fmtINR(tier.price)}</div>` : ''}${draft.addons.length ? `<div class="tiny muted mt-2">Add-ons: ${draft.addons.map(id => ADDONS.find(a=>a.id===id)?.name).filter(Boolean).join(', ')}</div>` : ''}${draft.customer.notes ? `<p class="mt-2" style="font-size:12px;color:var(--muted)">“${esc(draft.customer.notes)}”</p>` : ''}</div></div>
       <div class="review-block"><div class="head"><h3>Preferred appointment</h3><button type="button" class="link tiny" data-action="booking.edit" data-step="4" style="border:0;background:none;padding:0">Edit</button></div><div class="body"><strong>${fmtDateKey(draft.date)} · ${fmtTime(draft.slot)}</strong><br><span class="muted">${draft.appointmentType === 'pickup' ? 'Pickup requested · subject to availability' : draft.appointmentType === 'inspection' ? 'Inspection appointment' : 'Drop-off at Aya Nagar'}${draft.altPreference ? `<br>Alternative: ${esc(draft.altPreference)}` : ''}</span></div></div>
       <div class="review-block" style="background:var(--night);color:var(--white);border-color:var(--night)">
         <div class="flex between"><div><div class="tiny" style="color:rgba(255,255,255,.5)">${draftHasInspectionRequired(draft) ? 'Inspection required first' : 'Indicative total'}</div><strong style="font-family:var(--font-display);font-size:26px;color:var(--lime)">${total ? fmtINR(total) : 'To be confirmed'}</strong></div><span class="badge dark no-dot">Demo pricing</span></div>
