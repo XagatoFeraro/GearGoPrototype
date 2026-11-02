@@ -5,18 +5,18 @@
 'use strict';
 
 const SERVICE_IMAGES = {
-  svc_periodic: 'https://hoora.in/wp-content/themes/hoora/assets/images/heading-new.png',
-  svc_mechanical: 'https://hoora.in/wp-content/themes/hoora/assets/images/booking-hoora.png',
-  svc_brakes: 'https://hoora.in/wp-content/themes/hoora/assets/images/bike-car.webp',
-  svc_diagnostics: 'https://hoora.in/wp-content/themes/hoora/assets/images/bike-car.webp',
-  svc_electrical: 'https://hoora.in/wp-content/themes/hoora/assets/images/new-update-banner.png',
-  svc_ac: 'https://hoora.in/wp-content/themes/hoora/assets/images/wash-care1.png',
-  svc_battery: 'https://hoora.in/wp-content/themes/hoora/assets/images/insurance-hoora1.png',
-  svc_accident: 'https://hoora.in/wp-content/themes/hoora/assets/images/CONNECT-QR.png',
-  svc_dent: 'https://hoora.in/wp-content/themes/hoora/assets/images/new-update-banner1.png',
-  svc_wash: 'https://hoora.in/wp-content/themes/hoora/assets/images/Vacuum Clean.jpeg',
-  svc_interior: 'https://hoora.in/wp-content/themes/hoora/assets/images/Interior Clean.jpeg',
-  svc_detailing: 'https://hoora.in/wp-content/themes/hoora/assets/images/Tyre Gleam Polish.jpeg'
+  svc_periodic: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=70',
+  svc_mechanical: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=70',
+  svc_brakes: 'https://images.unsplash.com/photo-1544636331-e26879cd4b9?auto=format&fit=crop&w=900&q=70',
+  svc_diagnostics: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=900&q=70',
+  svc_electrical: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=70',
+  svc_ac: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=70',
+  svc_battery: 'https://images.unsplash.com/photo-1544636331-e26879cd4b9?auto=format&fit=crop&w=900&q=70',
+  svc_accident: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=70',
+  svc_dent: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=900&q=70',
+  svc_wash: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=70',
+  svc_interior: 'https://images.unsplash.com/photo-1544636331-e26879cd4b9?auto=format&fit=crop&w=900&q=70',
+  svc_detailing: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=70'
 };
 
 function siteHome() {
@@ -50,7 +50,7 @@ function siteHome() {
       </div>
       <div class="hero-art">
         <div class="hero-glow"></div>
-        <div class="hero-car"><img src="https://hoora.in/wp-content/themes/hoora/assets/images/booking-hoora.png" alt="Premium car being serviced at the garage"></div>
+        <div class="hero-car"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1400&q=70" alt="Premium car being serviced at the garage"></div>
         <div class="hero-note">${icon('shield')}<span><strong>Estimate-first workshop</strong><span>No surprise additions</span></span></div>
         <div class="live-card">
           <div class="head">
