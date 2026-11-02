@@ -40,6 +40,7 @@ function siteHome() {
         <div class="hero-actions">
           <a href="#/book" class="btn btn-lime">Book a service ${icon('arrow','icon-sm')}</a>
           <a href="#/site/services" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.28)">Explore services</a>
+          <a href="https://wa.me/${String(db.settings.business.ownerWhatsApp || '').replace(/\D/g,'')}?text=${encodeURIComponent('Hi ' + db.settings.business.name + ' — I would like to book a service for my car.')} class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.28)" target="_blank" rel="noopener">WhatsApp ${icon('whatsapp','icon-sm')}</a>
         </div>
         <div class="hero-meta">
           <div class="item">${icon('pin')}<span><strong>Aya Nagar, New Delhi</strong>Phase 4, H Block, behind Fitness Club Gym</span></div>
@@ -75,11 +76,22 @@ function siteHome() {
     <div class="item">${icon('clock')} Updates without repeated calls</div>
     <div class="item">${icon('car')} Service history kept with the vehicle</div>
   </div></div>
+  <section class="section white" style="padding-top:0">
+    <div class="section-inner">
+      <div class="stat-grid reveal">
+        ${statCard('Happy customers', '2M+', 'Across the network', {icon:'check'})}
+        ${statCard('Cars serviced', '25L+', 'Lifetime benchmark', {icon:'car'})}
+        ${statCard('Average rating', '4.0', 'From 150,000+ reviews', {icon:'star',accent:true})}
+        ${statCard('Touch points', '1,000+', 'Handled in India', {icon:'shield'})}
+      </div>
+      <p class="small muted mt-6" style="max-width:620px;margin-left:auto;margin-right:auto">Demo benchmarks inspired by the garage group’s published experience. Illustrative only — this prototype is not the live business.</p>
+    </div>
+  </section>
   <section class="section">
     <div class="section-inner">
       <div class="flex between wrap" style="align-items:flex-end">
         ${sectionHead('What we do','Complete care, clearly explained.','From a routine service to a specific repair, every recommendation is documented and every paid addition needs your approval.')}
-        <a href="#/site/services" class="btn btn-outline">View all 12 services ${icon('arrow','icon-sm')}</a>
+        <a href="#/site/services" class="btn btn-outline">View all ${db.settings.services.length} services ${icon('arrow','icon-sm')}</a>
       </div>
       <div class="service-grid">${servicesHtml}</div>
       <p class="tiny muted mt-6">Pricing shown is illustrative demo data configured for this prototype, not Gear Go’s actual rates. Final work is quoted after inspection.</p>
